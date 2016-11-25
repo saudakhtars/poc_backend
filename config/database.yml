@@ -1,20 +1,16 @@
 development: &default
-  host: ec2-23-23-224-174.compute-1.amazonaws.com
-  database: d1bbmche52b3gt
-  username: rigltdulqeahjz
-  port: 5432
-  password: 8YftpbJJwVy50KDT6iSfTkifQ-
+  adapter: postgresql
+  encoding: utf8
+  database: service_development
+  username: postgres
+  pool: 2
+  timeout: 5000
 
 test:
   <<: *default
-  host: ec2-23-23-224-174.compute-1.amazonaws.com
-  database: d1bbmche52b3gt
-  username: rigltdulqeahjz
-  port: 5432
-  password: 8YftpbJJwVy50KDT6iSfTkifQ-
+  database: service_test
 
 production:
-  <<: *default
   host: ec2-23-23-224-174.compute-1.amazonaws.com
   database: d1bbmche52b3gt
   username: rigltdulqeahjz

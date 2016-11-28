@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   match 'api/ideas' => 'ideas#index', via: :get
   match 'api/ideas/create' => 'ideas#create', via: :post
+  match 'api/ideas/:id' => 'ideas#destroy', via: :delete
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

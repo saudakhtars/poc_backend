@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
-  match 'api/ideas' => 'ideas#index', via: :get
-  match 'api/ideas/create' => 'ideas#create', via: :post
-  match 'api/ideas/:id' => 'ideas#destroy', via: :delete
+  namespace :api do
+    match '/sign_up', to: 'users#new', via: :get
+    match '/sign_up', to: 'users#create', via: :post
+    match '/sign_in', to: 'sessions#new', via: :get
+    match '/sign_in', to: 'sessions#create', via: :post
+    match '/sign_out', to: 'sessions#destroy', via: :get
+    resources :ideas
+  end
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

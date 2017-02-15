@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
-  skip_before_action :require_login, :authenticate_request, only: [:new, :create]
-  skip_before_filter :verify_authenticity_token, :only => [:new, :create]
+  skip_before_action :require_login, :authenticate_request, only: [:new, :create, :get_current_user]
+  skip_before_filter :verify_authenticity_token, :only => [:new, :create, :get_current_user]
 
   def new
     @user = User.new
@@ -19,6 +19,14 @@ class Api::UsersController < ApplicationController
     else
       render json: { error: 'Invalid User' }, status: 404
     end
+  end
+
+  def get_current_user
+    user = {id: current_user.id,
+            first_name: current_user.first_name,
+            last_name: current_user.last_name,
+            email: current_user.email}
+    render json: user
   end
 
   private

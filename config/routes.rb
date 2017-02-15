@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     match '/sign_in', to: 'sessions#new', via: :get
     match '/sign_in', to: 'sessions#create', via: :post
     match '/sign_out', to: 'sessions#destroy', via: :get
+    match '/get_current_user', to: 'users#get_current_user', via: :get
     resources :ideas
   end
 

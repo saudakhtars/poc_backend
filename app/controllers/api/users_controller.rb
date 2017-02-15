@@ -1,6 +1,6 @@
 class Api::UsersController < ApplicationController
-  skip_before_action :require_login, :authenticate_request, only: [:new, :create, :get_current_user]
-  skip_before_filter :verify_authenticity_token, :only => [:new, :create, :get_current_user]
+  skip_before_action :require_login, :authenticate_request, only: [:new, :create]
+  skip_before_filter :verify_authenticity_token, :only => [:new, :create]
 
   def new
     @user = User.new

@@ -7,6 +7,12 @@ Rails.application.routes.draw do
     match '/sign_out', to: 'sessions#destroy', via: :get
     match '/get_current_user', to: 'users#get_current_user', via: :get
     resources :ideas
+    match '/users_data', to: 'neustars#users_data', via: :get
+    resources :neustars do
+      collection do
+        get 'users_data'
+      end
+    end
   end
 
 

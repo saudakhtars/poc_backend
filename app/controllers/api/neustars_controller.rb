@@ -46,6 +46,49 @@ class Api::NeustarsController < ApplicationController
     end
   end
 
+  # def push_notification
+  #   app = Rpush::Apns::App.new
+  #   if !Rpush::Apns::App.find_by_name("Feustar")
+  #     app.name = "Feustar"
+  #     app.certificate = File.read("app/controllers/api/CallerAppPushCert.pem")
+  #     app.environment = "development" # APNs environment.
+  #     app.password = "cybage@123"
+  #     app.connections = 1
+  #     app.save!
+  #   end
+
+  #   n = Rpush::Apns::Notification.new
+  #   n.app = Rpush::Apns::App.find_by_name("Feustar")
+  #   n.device_token = "9C495CA7FB0FC97FE40757968134C31B6A995E9C867B5D579A14A4A4D253DADD" # 64-character hex string
+  #   n.alert = "hi mom!"
+  #   n.data = {"aps"=>{"alert"=>"Message","badge"=>"2","sound"=>"default"}}
+  #   n.save!
+  #   Rpush.push
+  #   render json: params[:phone_number], status: 200
+  # end
+
+  def push_notification_ios
+    tokens = [
+     "9C495CA7FB0FC97FE40757968134C31B6A995E9C867B5D579A14A4A4D253DADD"
+    ]
+    password = 'cybage@123' # optional password for .pem file
+
+    notification = RubyPushNotifications::APNS::APNSNotification.new tokens, { aps: { alert: caller_name, sound: 'true', badge: 1 } }
+
+    pusher = RubyPushNotifications::APNS::APNSPusher.new(File.read('app/controllers/api/CallerAppPushCert.pem'), true, password)
+    pusher.push [notification]
+  end
+
+  def caller_name
+    if params[:caller_number] == '9130017106'
+      return 'Call from Vijay Radake Identified by NeuStar'
+    elsif params[:caller_number] == '9130017102'
+      return 'Call from Debasish Identified by NeuStar'
+    else
+      return 'Call from Vipin Identified by NeuStar'
+    end
+  end
+
   def first_user
     { 
       "business_name" => "AT&T U-verse", 

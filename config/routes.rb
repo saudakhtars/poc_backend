@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :neustars do
       collection do
         get 'users_data'
+        post 'push_notification_ios'
       end
     end
   end

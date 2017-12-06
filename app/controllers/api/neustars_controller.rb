@@ -68,17 +68,20 @@ class Api::NeustarsController < ApplicationController
   # end
 
   def push_notification_ios
-    tokens = [
-     "9C495CA7FB0FC97FE40757968134C31B6A995E9C867B5D579A14A4A4D253DADD"
-    ]
-    password = 'cybage@123' # optional password for .pem file
+    if params[:calling_number] == '8806908725'
+      tokens = [
+       "9C495CA7FB0FC97FE40757968134C31B6A995E9C867B5D579A14A4A4D253DADD"
+      ]
+      password = 'cybage@123' # optional password for .pem file
 
-    notification = RubyPushNotifications::APNS::APNSNotification.new tokens, { aps: { alert: caller_name, sound: 'true', badge: 1 } }
+      notification = RubyPushNotifications::APNS::APNSNotification.new tokens, { aps: { alert: caller_name, sound: 'true', badge: 1 } }
 
-    pusher = RubyPushNotifications::APNS::APNSPusher.new(File.read('app/controllers/api/CallerAppPushCert.pem'), true, password)
-    pusher.push [notification]
-    render json: params[:calling_number], status: 200
-
+      pusher = RubyPushNotifications::APNS::APNSPusher.new(File.read('app/controllers/api/CallerAppPushCert.pem'), true, password)
+      pusher.push [notification]
+      render json: params[:calling_number], status: 200
+    else
+      render plain: 'Not an ios number', status: 200
+    end
   end
 
   def caller_name

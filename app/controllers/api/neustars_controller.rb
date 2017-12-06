@@ -77,6 +77,8 @@ class Api::NeustarsController < ApplicationController
 
     pusher = RubyPushNotifications::APNS::APNSPusher.new(File.read('app/controllers/api/CallerAppPushCert.pem'), true, password)
     pusher.push [notification]
+    render json: params[:calling_number], status: 200
+
   end
 
   def caller_name

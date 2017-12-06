@@ -82,13 +82,33 @@ class Api::NeustarsController < ApplicationController
   end
 
   def caller_name
-    if params[:caller_number] == '9130017106'
-      return 'Call from Vijay Radake Identified by NeuStar'
-    elsif params[:caller_number] == '9130017102'
-      return 'Call from Debasish Identified by NeuStar'
-    else
-      return 'Call from Vipin Identified by NeuStar'
-    end
+    caller_number = params[:caller_number]
+    number = caller_number[-1]
+    message = case number
+              when '1'
+                "Call from Kane with number #{caller_number} Identified by NeuStar"
+              when '2'
+                "Call from Neil with number #{caller_number} Identified by NeuStar"
+              when '3'
+                "Call from Stephen with number #{caller_number} Identified by NeuStar"
+              when '4'
+                "Call from Martin with number #{caller_number} Identified by NeuStar"
+              when '5'
+                "Call from Smith with number #{caller_number} Identified by NeuStar"
+              when '6'
+                "Call from David with number #{caller_number} Identified by NeuStar"
+              when '7'
+                "Call from Michael with number #{caller_number} Identified by NeuStar"
+              when '8'
+                "Call from Ben with number #{caller_number} Identified by NeuStar"
+              when '9'
+                "Call from Andrew with number #{caller_number} Identified by NeuStar"
+              when '0'
+                "Call from Peter with number #{caller_number} Identified by NeuStar"
+              else
+                "Call from Vipin with number #{caller_number} Identified by NeuStar"
+              end
+    return message
   end
 
   def first_user

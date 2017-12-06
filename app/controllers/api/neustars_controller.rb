@@ -68,7 +68,7 @@ class Api::NeustarsController < ApplicationController
   # end
 
   def push_notification_ios
-    if params[:calling_number] == '8806908725'
+    #if params[:calling_number] == '8806908725'
       tokens = [
        "9C495CA7FB0FC97FE40757968134C31B6A995E9C867B5D579A14A4A4D253DADD"
       ]
@@ -79,9 +79,9 @@ class Api::NeustarsController < ApplicationController
       pusher = RubyPushNotifications::APNS::APNSPusher.new(File.read('app/controllers/api/CallerAppPushCert.pem'), true, password)
       pusher.push [notification]
       render json: params[:calling_number], status: 200
-    else
-      render plain: 'Not an ios number', status: 200
-    end
+    #else
+      #render plain: 'Not an ios number', status: 200
+    #end
   end
 
   def caller_name

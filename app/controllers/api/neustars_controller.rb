@@ -84,6 +84,19 @@ class Api::NeustarsController < ApplicationController
     #end
   end
 
+  def report_spam
+    spam = Spam.find_by_phone_number(params[:phone_number])
+    if spam.present?
+      count = spam.count + 1
+      spam.count = count
+      spam.save!
+      render plain: 'Updated', status: 200
+    else
+      spam = Spam.create(phone_number: params[:phone_number], count: 1)
+      render plain: 'Created', status: 200
+    end 
+  end
+
   def caller_name
     caller_number = params[:caller_number]
     number = caller_number[-1]
@@ -125,7 +138,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://attsavings.com/u-verse", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/user01.png"
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/user01.png",
+      "spam_count" => spam_count
     } 
   end
 
@@ -140,7 +154,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://airtel.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/user05.png" 
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/user05.png",
+      "spam_count" => spam_count
     } 
   end
 
@@ -155,7 +170,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://vodafone.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/user03.png"  
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/user03.png",
+      "spam_count" => spam_count  
     } 
   end
 
@@ -170,7 +186,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://apple.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/Carter-Wigell.png" 
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/Carter-Wigell.png",
+      "spam_count" => spam_count 
     } 
   end
 
@@ -185,7 +202,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://samsung.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/charlie-smith.png" 
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/charlie-smith.png",
+      "spam_count" => spam_count 
     } 
   end
 
@@ -200,7 +218,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://oneplus.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/img03.png" 
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/img03.png",
+      "spam_count" => spam_count
     } 
   end
 
@@ -215,7 +234,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://dell.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/Ray-Arata.png"
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/Ray-Arata.png",
+      "spam_count" => spam_count
     } 
   end
 
@@ -230,7 +250,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://lenovo.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/bindi-karia.png"
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/bindi-karia.png",
+      "spam_count" => spam_count
     } 
   end
 
@@ -245,7 +266,8 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://sony.com/", 
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/Julie-Trell.png"
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/Julie-Trell.png",
+      "spam_count" => spam_count
     } 
   end
 
@@ -260,7 +282,17 @@ class Api::NeustarsController < ApplicationController
       "locality" => "SEATTLE, WA", 
       "postal_code" => "98101-1662", 
       "website_url" => "http://hp.com/",
-      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/aber.png"
+      "logo_url" => "https://ideatorpoc.herokuapp.com/assets/img/aber.png",
+      "spam_count" => spam_count
     } 
+  end
+
+  def spam_count
+    spam = Spam.find_by_phone_number(params[:phone_number])
+    if spam.present?
+      spam.count
+    else
+      0
+    end
   end
 end

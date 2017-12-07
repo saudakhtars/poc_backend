@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       collection do
         get 'users_data'
         post 'push_notification_ios'
+        post 'report_spam'
       end
     end
   end

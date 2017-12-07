@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171207070514) do
+ActiveRecord::Schema.define(version: 20171207094755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,11 @@ ActiveRecord::Schema.define(version: 20171207070514) do
     t.integer  "commentscount"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "spam_details", force: :cascade do |t|
+    t.integer "spam_number", limit: 8
+    t.integer "spam_by",     limit: 8
   end
 
   create_table "spams", force: :cascade do |t|

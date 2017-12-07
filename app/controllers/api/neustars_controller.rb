@@ -2,6 +2,7 @@ class Api::NeustarsController < ApplicationController
 
   skip_before_filter  :verify_authenticity_token
   skip_before_action :set_current_user, :authenticate_request
+  before_action :log_spam_details, :only => [:report_spam]
 
   def users_data
     if params[:access_token].present? && params[:phone_number].present?
@@ -85,16 +86,35 @@ class Api::NeustarsController < ApplicationController
   end
 
   def report_spam
-    spam = Spam.find_by_phone_number(params[:phone_number])
-    if spam.present?
-      count = spam.count + 1
-      spam.count = count
-      spam.save!
-      render plain: 'Updated', status: 200
+    if !@detail.present?
+      spam = Spam.find_by_phone_number(params[:caller_number])
+      if spam.present?
+        spam.count = spam.count + 1
+        spam.save!
+        render plain: 'Marked as spam', status: 200
+      else
+        spam = Spam.create(phone_number: params[:caller_number], count: 1)
+        render plain: 'Marked as spam', status: 200
+      end
     else
-      spam = Spam.create(phone_number: params[:phone_number], count: 1)
-      render plain: 'Created', status: 200
+      render plain: 'You have already marked this number as spam', status: 200
     end 
+  end
+
+  def log_spam_details
+    @detail = SpamDetail.where(spam_number: params[:caller_number], spam_by: params[:calling_number]).first
+    spam_detail = SpamDetail.create(spam_number: params[:caller_number], spam_by: params[:calling_number]) unless @detail.present?
+  end
+
+  def call_details
+    @call_details = {
+      caller_number: params[:caller_number],
+      calling_number: params[:calling_number],
+      calling_time: params[:calling_time],
+      call_duration: params[:call_duration],
+      status: params[:status]
+    }
+    render json: @call_details, status: 200
   end
 
   def caller_name

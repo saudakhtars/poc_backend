@@ -13,6 +13,7 @@ Rails.application.routes.draw do
         get 'users_data'
         post 'push_notification_ios'
         post 'report_spam'
+        post 'call_details'
       end
     end
   end

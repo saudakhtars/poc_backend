@@ -30,7 +30,7 @@ class Api::NeustarsController < ApplicationController
               when '0'
                 tenth_user
               else
-                'not a user'
+                fifth_user
               end
       render json: @user, status: 200
     else
